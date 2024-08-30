@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const MongoDbConnect: string = process.env.MONGODB_URI as string;
-console.log("MONGODB_URI:", MongoDbConnect); // Log to ensure it's defined
 
 const connectDB = async (): Promise<void> => {
   try {
