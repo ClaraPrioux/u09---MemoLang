@@ -3,7 +3,7 @@ interface Example {
   name: string;
 }
 
-let examples: Example[] = []; // In-memory storage for examples
+const examples: Example[] = []; // In-memory storage for examples
 let currentId = 1; // To simulate auto-incrementing IDs
 
 export const getExamples = async (): Promise<Example[]> => {

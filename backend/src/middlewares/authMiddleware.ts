@@ -21,7 +21,7 @@ const authMiddleware = (
     const decoded = jwt.verify(token, secretKey);
     req.user = (decoded as { id: string }).id; // Attach the user ID to the request
     next();
-  } catch (error) {
+  } catch {
     res.status(401).json({ message: "Token is not valid" });
   }
 };

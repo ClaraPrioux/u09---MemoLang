@@ -12,7 +12,7 @@ export const getExamples = async (
   try {
     const examples = await fetchExamples();
     res.json(examples);
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -25,7 +25,7 @@ export const createExample = async (
     const { name } = req.body;
     const newExample = await addExample(name);
     res.json(newExample);
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

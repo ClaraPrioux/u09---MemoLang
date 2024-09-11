@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, secretKey, { expiresIn: "1h" });
 
     res.status(201).json({ token });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
     // Generate token
     const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: "1h" });
     res.json({ token });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "Server error" });
   }
 });
