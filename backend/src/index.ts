@@ -1,5 +1,6 @@
 import express from "express";
 import connectDB from "./config/dbConfig"; // Import the connectDB function
+import authRoutes from "./routes/authRoutes";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,3 +15,6 @@ connectDB().then(() => {
     console.log(`Server is running on port ${port}`);
   });
 });
+
+// All the routes
+app.use("/auth", authRoutes);
