@@ -1,6 +1,7 @@
 import express from "express";
 import connectDB from "./config/dbConfig"; // Import the connectDB function
 import authRoutes from "./routes/authRoutes";
+import wordsRoutes from "./routes/wordsRoutes";
 import cors from "cors";
 
 const app = express();
@@ -26,3 +27,4 @@ app.use(
 
 // All the routes
 app.use("/auth", authRoutes);
+app.use("/word", wordsRoutes);
