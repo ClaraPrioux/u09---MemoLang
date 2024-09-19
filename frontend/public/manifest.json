@@ -1,0 +1,30 @@
+{
+  "name": "MemoLang, words you won't forget!",
+  "short_name": "MemoLang",
+  "theme_color": "#ffffff",
+  "start_url": "/",
+  "description": "MemoLang is a language learning app designed to help users expand their vocabulary through spaced repetition. By saving progress, MemoLang ensures words are learned effectively, making it easier to retain new languages. Perfect as a complement for learners living abroad seeking an efficient and personalized language-learning experience.",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "50x50"
+    },
+    {
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
