@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         jost: ["Jost", "sans-serif"],
       },
+      colors: {
+        blueBorder: "#0575b5",
+      },
       backgroundImage: {
         "custom-gradient":
           "linear-gradient(to top right, #2448AA 0%, #008BDB 25%, #6BFBCE 75%, #00C6DE 100%)",

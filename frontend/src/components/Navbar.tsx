@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
               <a href="/about">ABOUT</a>
             </button>
             <button className="hover:text-gray-600">
-              <a href="/add">ADD</a>
+              <a href="/">ADD</a>
             </button>
             <button className="hover:text-gray-600">
               <a href="/review">REVIEW</a>
