@@ -24,10 +24,6 @@ router.post("/getSuggestions", authMiddleware, async (req, res) => {
       })
       .toArray();
 
-    if (wordsFound.length === 0) {
-      return res.status(404).json({ message: "No words found!" });
-    }
-
     // Include word_id in the returned suggestions
     const suggestions = wordsFound.map((word) => ({
       word: word.Word,
@@ -62,7 +58,7 @@ router.post("/add", authMiddleware, async (req, res) => {
       usersword_id: new mongoose.Types.ObjectId(),
       word_id: wordId,
       user_id,
-      context,
+      context: context,
       creation_date: new Date(),
       date_1: new Date(),
       date_7: new Date(),
