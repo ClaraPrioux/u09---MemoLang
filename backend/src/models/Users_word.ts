@@ -14,20 +14,26 @@ const usersWordsSchema = new mongoose.Schema({
   },
   context: { type: String, required: true, unique: true },
   creation_date: { type: Date, default: Date.now },
-  date_1: { type: Date },
-  date_7: { type: Date },
-  date_30: { type: Date },
+  date_1: { type: String },
+  date_7: { type: String },
+  date_30: { type: String },
 });
 
-// Pre-save hook to compute `date_1`, `date_7`, and `date_30` because can't use `this.`in schema (refers to schema context intsead of document context)
+// Pre-save hook to compute `date_1`, `date_7`, and `date_30`
 usersWordsSchema.pre("save", function (next) {
   if (this.creation_date) {
-    this.date_1 = new Date(this.creation_date.getTime() + 24 * 60 * 60 * 1000);
-    this.date_7 = new Date(
-      this.creation_date.getTime() + 7 * 24 * 60 * 60 * 1000
+    const creationDate = new Date(this.creation_date);
+
+    const formatDate = (date: Date) => date.toISOString().split("T")[0];
+
+    this.date_1 = formatDate(
+      new Date(creationDate.getTime() + 1 * 24 * 60 * 60 * 1000)
     );
-    this.date_30 = new Date(
-      this.creation_date.getTime() + 30 * 24 * 60 * 60 * 1000
+    this.date_7 = formatDate(
+      new Date(creationDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+    );
+    this.date_30 = formatDate(
+      new Date(creationDate.getTime() + 30 * 24 * 60 * 60 * 1000)
     );
   }
   next();

@@ -73,4 +73,51 @@ router.post("/add", authMiddleware, async (req, res) => {
   }
 });
 
+// Search for words to review today (words that have today's date in day_1 or day_7 or day_30)
+router.get("/getTodaysWords", authMiddleware, async (req, res) => {
+  try {
+    // Extract the user_id from the token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided!" });
+    }
+
+    const decodedToken = jwt.verify(token, secretKey) as DecodedToken;
+    const user_id = decodedToken.id;
+
+    // Get today's date in YYYY-MM-DD format
+    const todaysDate = new Date().toISOString().split("T")[0];
+
+    // Find words where date_1, date_7, or date_30 match today's date
+    const findWords = await mongoose.connection
+      .collection("userswords")
+      .find({
+        $and: [
+          { user_id: new mongoose.Types.ObjectId(user_id) },
+          {
+            $or: [
+              { date_1: todaysDate },
+              { date_7: todaysDate },
+              { date_30: todaysDate },
+            ],
+          },
+        ],
+      })
+      .toArray();
+
+    // Map the results to the required format
+    const todaysWords = findWords.map((word) => ({
+      word: word.Word,
+      translation: word.Translation,
+      word_id: word._id,
+    }));
+
+    return res.status(200).json({ todaysWords });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error returning today's words", error });
+  }
+});
+
 export default router;
