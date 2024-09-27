@@ -95,10 +95,7 @@ const AddPage: React.FC = () => {
     <div className="w-2/3 md:w-3/6 mx-auto mt-52 md:mt-32 font-jost">
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div>
-          <label
-            htmlFor="word"
-            className="block text-sm font-medium text-gray-700"
-          ></label>
+          <label htmlFor="word"></label>
           <input
             type="text"
             id="word"
@@ -131,10 +128,7 @@ const AddPage: React.FC = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="context"
-            className="block text-sm font-medium text-gray-700"
-          ></label>
+          <label htmlFor="context"></label>
           <textarea
             id="context"
             name="context"
