@@ -11,7 +11,7 @@ interface DecodedToken {
   id: string;
 }
 
-// Get word suggestions when user type a word
+// GET SUGGESTIONS ENDPOINT
 router.post("/getSuggestions", authMiddleware, async (req, res) => {
   try {
     const { word } = req.body;
@@ -39,7 +39,7 @@ router.post("/getSuggestions", authMiddleware, async (req, res) => {
   }
 });
 
-// Save the selected word and translation
+// ADD WORD ENDPOINT
 router.post("/add", authMiddleware, async (req, res) => {
   try {
     const { wordId, context } = req.body;
@@ -73,7 +73,7 @@ router.post("/add", authMiddleware, async (req, res) => {
   }
 });
 
-// Search for words to review today (words that have today's date in day_1 or day_7 or day_30)
+// GET TODAY'S WORDS ENDPOINT
 router.get("/getTodaysWords", authMiddleware, async (req, res) => {
   try {
     // Extract the user_id from the token
@@ -105,7 +105,6 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
       })
       .toArray();
 
-    // If no words are found, return an empty list
     if (!findWords || findWords.length === 0) {
       return res.status(200).json({ todaysWords: [] });
     }
@@ -127,6 +126,30 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error returning today's words", error });
+  }
+});
+
+// GET CONTEXT ENDPOINT (will be used if wrong answer from user)
+router.post("/getContext", authMiddleware, async (req, res) => {
+  try {
+    const { word_id, user_id } = req.body;
+
+    const word = await mongoose.connection.collection("userswords").findOne({
+      $and: [
+        { user_id: new mongoose.Types.ObjectId(user_id) },
+        { word_id: new mongoose.Types.ObjectId(word_id) },
+      ],
+    });
+
+    if (!word) {
+      return res
+        .status(404)
+        .json({ message: "No word found with the given details" });
+    }
+
+    return res.status(200).json({ context: word.context });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching context", error });
   }
 });
 
