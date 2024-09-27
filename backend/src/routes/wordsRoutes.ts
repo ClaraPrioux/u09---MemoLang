@@ -105,8 +105,18 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
       })
       .toArray();
 
-    // Map the results to the required format
-    const todaysWords = findWords.map((word) => ({
+    // If no words are found, return an empty list
+    if (!findWords || findWords.length === 0) {
+      return res.status(200).json({ todaysWords: [] });
+    }
+    // With the wordIds from findWords, search for the correponding Word and Translation in words collection
+    const wordIds = findWords.map((word) => word.word_id);
+    const wordsList = await mongoose.connection
+      .collection("words")
+      .find({ _id: { $in: wordIds } })
+      .toArray();
+
+    const todaysWords = wordsList.map((word) => ({
       word: word.Word,
       translation: word.Translation,
       word_id: word._id,
