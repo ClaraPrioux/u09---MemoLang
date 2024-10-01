@@ -115,7 +115,7 @@ const Navbar: React.FC = () => {
                   />
                 </svg>
                 <button className="pl-4">
-                  <a href="/add">Add a word</a>
+                  <a href="/">Add a word</a>
                 </button>
               </div>
               <div className="flex p-2 mt-4">

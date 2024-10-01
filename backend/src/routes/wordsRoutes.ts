@@ -86,7 +86,7 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
     const user_id = decodedToken.id;
 
     // Get today's date in YYYY-MM-DD format
-    const todaysDate = new Date().toISOString().split("T")[0];
+    const todaysDate = "2024-10-03";
 
     // Find words where date_1, date_7, or date_30 match today's date
     const findWords = await mongoose.connection
@@ -132,7 +132,16 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
 // GET CONTEXT ENDPOINT (will be used if wrong answer from user)
 router.post("/getContext", authMiddleware, async (req, res) => {
   try {
-    const { word_id, user_id } = req.body;
+    // Extract the user_id from the token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided!" });
+    }
+
+    const decodedToken = jwt.verify(token, secretKey) as DecodedToken;
+    const user_id = decodedToken.id;
+
+    const { word_id } = req.body;
 
     const word = await mongoose.connection.collection("userswords").findOne({
       $and: [
