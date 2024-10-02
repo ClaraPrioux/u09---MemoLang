@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
 
     // Generate the token
     const token = jwt.sign({ id: newUser._id, role: newUser.role }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "4h",
     });
 
     res.status(201).json({ token });
@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
 
     // Generate token
     const token = jwt.sign({ id: user._id, role: user.role }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "4h",
     });
     res.json({ token });
   } catch {
