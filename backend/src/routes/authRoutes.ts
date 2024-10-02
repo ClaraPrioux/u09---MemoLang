@@ -8,7 +8,7 @@ const secretKey = process.env.SECRET_KEY!;
 // Register route
 
 router.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     // Check if user already exists
@@ -26,13 +26,16 @@ router.post("/register", async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: role || "user",
     });
 
     // Save user to MongoDB
     await newUser.save();
 
     // Generate the token
-    const token = jwt.sign({ id: newUser._id }, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, secretKey, {
+      expiresIn: "1h",
+    });
 
     res.status(201).json({ token });
   } catch {
@@ -59,7 +62,9 @@ router.post("/login", async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, role: user.role }, secretKey, {
+      expiresIn: "1h",
+    });
     res.json({ token });
   } catch {
     res.status(500).json({ message: "Server error" });
