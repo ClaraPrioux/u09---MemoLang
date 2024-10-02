@@ -4,6 +4,7 @@ interface Word {
   word: string;
   translation: string;
   word_id: string;
+  review_day: string;
 }
 
 const ExercisePage: React.FC = () => {
@@ -73,15 +74,24 @@ const ExercisePage: React.FC = () => {
     e.preventDefault();
     if (!randomWordObject) return;
 
-    const { word, translation, word_id } = randomWordObject;
+    const { word, translation, word_id, review_day } = randomWordObject;
 
+    // Success
     if (
       inputValue.toLowerCase() === word.toLowerCase() ||
       inputValue.toLowerCase() === translation.toLowerCase()
     ) {
       setSuccessMessage("Correct! 🎉");
       setErrorMessage("");
+
+      if (review_day) {
+        markWordAsCompletedForDay(word_id, review_day);
+      } else {
+        console.error("No review day found for this word.");
+      }
+      window.location.reload();
     } else {
+      // Incorrect
       setErrorMessage(`Incorrect! Word: ${word}, Translation: ${translation}`);
       setSuccessMessage("");
       fetchContext(word_id);
@@ -90,7 +100,7 @@ const ExercisePage: React.FC = () => {
     setInputValue("");
   };
 
-  // If answer is not correct, fetch the Context to display it
+  // Called when Incorrect: fetch the Context to display it
   const fetchContext = (word_id: string) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -117,6 +127,32 @@ const ExercisePage: React.FC = () => {
         }
       })
       .catch((err) => console.error("Error fetching context:", err));
+  };
+
+  // Called when correct: Mark the word as reviewed for this specific day (day_1 or day_7 or day_30)
+  const markWordAsCompletedForDay = (word_id: string, review_day: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    fetch(`http://localhost:3000/word/markAsCompletedForDay`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ word_id, review_day }),
+    })
+      .then((res) => res.json())
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .then((data) => {
+        console.log(`Word marked as completed for ${review_day}`);
+      })
+      .catch((err) =>
+        console.error(`Error marking word as completed for ${review_day}:`, err)
+      );
   };
 
   return (

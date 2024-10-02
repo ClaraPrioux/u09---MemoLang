@@ -17,6 +17,9 @@ const usersWordsSchema = new mongoose.Schema({
   date_1: { type: String },
   date_7: { type: String },
   date_30: { type: String },
+  completed_1: { type: Boolean, default: false },
+  completed_7: { type: Boolean, default: false },
+  completed_30: { type: Boolean, default: false },
 });
 
 // Pre-save hook to compute `date_1`, `date_7`, and `date_30`
