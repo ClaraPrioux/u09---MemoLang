@@ -8,6 +8,7 @@ export default {
       },
       colors: {
         blueBorder: "#0575b5",
+        greenBorder: "#6BFBCE",
       },
       backgroundImage: {
         "custom-gradient":
