@@ -21,6 +21,7 @@ router.get(
         .find({})
         .toArray();
       const usersInfo = users.map((user) => ({
+        user_id: user._id,
         username: user.username,
         email: user.email,
         role: user.role,
@@ -73,16 +74,17 @@ router.put(
   adminMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const { username, email, password, role } = req.body;
+      const { user_id, username, email, password, role } = req.body; // Include user_id in the destructured body
 
-      // Search for the user by email
-      const user = await User.findOne({ email });
+      // Search for the user by user_id
+      const user = await User.findById(user_id); // Use findById to search for user by user_id
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
       // Update only if fields are provided
       if (username) user.username = username;
+      if (email) user.email = email; // Update email if provided
       if (role) user.role = role;
       if (password) {
         const salt = await bcrypt.genSalt(10);
@@ -105,10 +107,10 @@ router.delete(
   adminMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const { email } = req.body;
+      const { user_id } = req.body;
 
       // Search for the user by email and delete it
-      const deletedUser = await User.findOneAndDelete({ email });
+      const deletedUser = await User.findOneAndDelete({ user_id });
 
       if (!deletedUser) {
         return res.status(404).json({ message: "User not found" });
