@@ -16,6 +16,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-1 rounded-full"
+          aria-label="Access our X-page here"
         >
           <FaXTwitter className="text-gray-400 text-sm hover:text-black" />
         </a>
@@ -24,6 +25,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-1 rounded-full"
+          aria-label="Access our Instagram page here"
         >
           <FaInstagram className="text-gray-400 text-sm hover:text-pink-500" />
         </a>
@@ -32,6 +34,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-1 rounded-full"
+          aria-label="Access our Facebook page here"
         >
           <FaFacebook className="text-gray-400 text-sm hover:text-blue-600" />
         </a>
@@ -40,6 +43,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-1 rounded-full"
+          aria-label="Access our Tiktok page here"
         >
           <FaTiktok className="text-gray-400 text-sm hover:text-black" />
         </a>
@@ -48,6 +52,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-1 rounded-full"
+          aria-label="Access our Reddit page here"
         >
           <FaReddit className="text-gray-400 text-sm hover:text-orange-500" />
         </a>

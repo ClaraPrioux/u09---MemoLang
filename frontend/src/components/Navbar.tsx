@@ -45,6 +45,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
+              title="menu"
               className="text-white hover:text-gray-600 focus:outline-none"
             >
               <svg
