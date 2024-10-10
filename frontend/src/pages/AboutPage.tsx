@@ -1,5 +1,3 @@
-import React from "react";
-
 const AboutPage = () => {
   return (
     <div className="flex flex-col m-10 sm:m-32 font-jost space-y-8 mt-2 sm:mt-6">

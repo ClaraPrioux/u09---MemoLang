@@ -9,7 +9,6 @@ interface Word {
 
 const ExercisePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [todaysWords, setTodaysWords] = useState<Word[]>([]);
   const [exerciseMessage, setExerciseMessage] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
@@ -36,6 +35,7 @@ const ExercisePage: React.FC = () => {
       .then((data) => {
         if (data && data.todaysWords) {
           setTodaysWords(data.todaysWords);
+          console.log(todaysWords);
 
           if (data.todaysWords.length === 0) {
             setExerciseMessage("No words for today!");
@@ -146,10 +146,6 @@ const ExercisePage: React.FC = () => {
       body: JSON.stringify({ word_id, review_day }),
     })
       .then((res) => res.json())
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .then((data) => {
-        console.log(`Word marked as completed for ${review_day}`);
-      })
       .catch((err) =>
         console.error(`Error marking word as completed for ${review_day}:`, err)
       );
