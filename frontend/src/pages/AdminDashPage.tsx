@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import RegisterPage from "./RegisterPage";
 import Logout from "../components/LogoutBtn";
 
@@ -16,7 +16,7 @@ const AdminDashPage = () => {
   const [numberofUsers, setNumberofUsers] = useState<number>(0);
 
   // Fetch the users
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const res = await fetch("http://localhost:3000/admin/getUsers", {
         method: "GET",
@@ -27,17 +27,18 @@ const AdminDashPage = () => {
       });
 
       if (!res.ok) throw new Error("Error fetching users");
+
       const data = await res.json();
       setUsers(data.usersInfo);
       usersCounter(data.usersInfo);
     } catch (error) {
       console.error("Error fetching users", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   // Handle edit button click
   const handleEditClick = (user: User) => {
@@ -69,9 +70,9 @@ const AdminDashPage = () => {
         });
 
         if (!res.ok) throw new Error("Error updating user");
-        fetchUsers(); // Re-fetch users to update the list
-        setIsEditing(false); // Exit edit mode
-        setEditingUser(null); // Clear editing state
+        fetchUsers();
+        setIsEditing(false);
+        setEditingUser(null);
       } catch (error) {
         console.error("Error updating user", error);
       }
