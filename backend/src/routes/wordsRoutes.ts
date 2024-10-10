@@ -85,7 +85,7 @@ router.get("/getTodaysWords", authMiddleware, async (req, res) => {
     const decodedToken = jwt.verify(token, secretKey) as DecodedToken;
     const user_id = decodedToken.id;
 
-    const todaysDate = "2024-10-03"; // new Date().toISOString().split("T")[0]
+    const todaysDate = new Date().toISOString().split("T")[0];
 
     // Find words where date_1, date_7, or date_30 match today's date and are not completed yet
     const findWords = await mongoose.connection

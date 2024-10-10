@@ -157,9 +157,6 @@ const Navbar: React.FC = () => {
                   <a href="/profile">Profile</a>
                 </button>
               </div>
-              <p className="text-gray-300 mx-auto absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                Memolang
-              </p>
             </div>
           </div>
         </div>
