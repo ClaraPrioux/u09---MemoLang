@@ -7,7 +7,7 @@ const AddPage: React.FC = () => {
   const [suggestions, setSuggestions] = useState<
     { word: string; translation: string; word_id: string }[]
   >([]);
-  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [saveMessage, setsaveMessage] = useState<string>("");
 
   // Fetch suggestions from the backend as the user types
   useEffect(() => {
@@ -82,9 +82,10 @@ const AddPage: React.FC = () => {
         setWord("");
         setContext("");
         setWordId("");
-        setSuccessMessage(`The word: ${word} has been added to your words!`);
+        setsaveMessage(`Word added!`);
       } else {
         console.error("Error saving word:", result.message);
+        setsaveMessage(`Impossible to add ${word}, contact support!`);
       }
     } catch (err) {
       console.error("Error during save:", err);
@@ -92,7 +93,7 @@ const AddPage: React.FC = () => {
   };
 
   return (
-    <div className="w-2/3 md:w-3/6 mx-auto mt-52 md:mt-32 font-jost">
+    <div className="w-2/3 md:w-3/6 mx-auto mt-32 md:mt-32 font-jost">
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="word"></label>
@@ -146,10 +147,10 @@ const AddPage: React.FC = () => {
           >
             Save
           </button>
-          {successMessage && (
-            <p className="text-center p-8 text-xl text-green-300">
-              🎉 {successMessage} 🎉
-            </p>
+          {saveMessage && (
+            <div className="text-center p-4 text-xl text-green-500 border border-green-500 rounded-lg bg-green-100 mx-auto w-1/3 mt-4">
+              ✅ {saveMessage}
+            </div>
           )}
         </div>
       </form>

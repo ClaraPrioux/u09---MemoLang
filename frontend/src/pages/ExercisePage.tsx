@@ -9,12 +9,12 @@ interface Word {
 
 const ExercisePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<JSX.Element | null>(null);
   const [todaysWords, setTodaysWords] = useState<Word[]>([]);
   const [exerciseMessage, setExerciseMessage] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [randomWordObject, setRandomWordObject] = useState<Word | null>(null);
   const [contextMessage, setContextMessage] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   // When the page loads, this useEffect fetches todays words from backend, and call methods
   useEffect(() => {
@@ -82,7 +82,7 @@ const ExercisePage: React.FC = () => {
       inputValue.toLowerCase() === translation.toLowerCase()
     ) {
       setSuccessMessage("Correct! 🎉");
-      setErrorMessage("");
+      setErrorMessage(null);
 
       if (review_day) {
         markWordAsCompletedForDay(word_id, review_day);
@@ -92,7 +92,24 @@ const ExercisePage: React.FC = () => {
       window.location.reload();
     } else {
       // Incorrect
-      setErrorMessage(`Incorrect! Word: ${word}, Translation: ${translation}`);
+      setErrorMessage(
+        <>
+          Incorrect! The word "{word}"(eng) means "{translation}"(swe)!
+          <br />
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              color: "red",
+              textDecoration: "underline",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            👉 Try again 👈
+          </button>
+        </>
+      );
       setSuccessMessage("");
       fetchContext(word_id);
     }
@@ -182,17 +199,19 @@ const ExercisePage: React.FC = () => {
         </div>
 
         {errorMessage && (
-          <p className="text-center p-8 text-xl text-red-500">{errorMessage}</p>
+          <div className="text-center p-4 text-xl text-red-500 border border-red-500 rounded-lg bg-red-100 mx-auto mt-4">
+            {errorMessage}
+          </div>
         )}
         {successMessage && (
-          <p className="text-center p-8 text-xl text-green-300">
+          <div className="text-center p-4 text-xl text-green-500 border border-green-500 rounded-lg bg-green-100 mx-auto w-1/3 mt-4">
             {successMessage}
-          </p>
-        )}
-        {contextMessage && (
-          <p className="text-center p-8 text-lg text-gray-600">
-            {contextMessage}
-          </p>
+            {contextMessage && (
+              <p className="text-center p-8 text-lg text-gray-600">
+                {contextMessage}
+              </p>
+            )}
+          </div>
         )}
       </form>
     </div>

@@ -22,7 +22,7 @@ connectDB().then(() => {
 // Allow requests from your frontend
 app.use(
   cors({
-    origin: "https://u09-memolang.netlify.app", // http://localhost:5173
+    origin: "http://localhost:5173", // https://u09-memolang.netlify.app
   })
 );
 
