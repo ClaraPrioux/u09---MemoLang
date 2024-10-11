@@ -9,6 +9,7 @@ import AdminDashPage from "./pages/AdminDashPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRouteAdmin from "./components/protectedRouteAdmin";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
       <div className="bg-custom-gradient min-h-screen flex flex-col">
         <Navbar />
         <Routes>
-          <Route path="/" element={<AddPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/add" element={<AddPage />} />
           <Route path="/review" element={<ExercisePage />} />
           <Route path="/about" element={<AboutPage />} />
           {/* <Route path="/profile" element={<ProfilePage />} /> */}

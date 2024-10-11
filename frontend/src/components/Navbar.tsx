@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl px-4 sm:px-4 lg:px-2">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <a href="/add">
+            <a href="/">
               <img src={logo} alt="Logo" className="h-14 w-auto" />
             </a>
           </div>
@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
               <a href="/about">ABOUT</a>
             </button>
             <button className="hover:text-gray-600">
-              <a href="/">ADD</a>
+              <a href="/add">ADD</a>
             </button>
             <button className="hover:text-gray-600">
               <a href="/review">REVIEW</a>
