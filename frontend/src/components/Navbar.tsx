@@ -1,10 +1,12 @@
-import React, { useState } from "react";
 import logo from "../assets/logo.svg";
 import profile from "../assets/profile.webp";
 
-const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface NavbarProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
+const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -79,7 +81,7 @@ const Navbar: React.FC = () => {
               />
               <p className="text-white text-3xl mt-4">Username</p>
             </div>
-            <div className="bg-white min-h-screen flex flex-col items-start text-2xl p-2">
+            <div className="bg-white flex flex-col items-start text-2xl p-2">
               <div className="flex m-2  mt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +156,7 @@ const Navbar: React.FC = () => {
                   />
                 </svg>
 
-                <button className="pl-4">
+                <button className="pl-4 mb-80">
                   <a href="/profile">Profile</a>
                 </button>
               </div>
