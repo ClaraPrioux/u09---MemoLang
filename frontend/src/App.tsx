@@ -14,7 +14,7 @@ import HomePage from "./pages/HomePage";
 function App() {
   return (
     <Router>
-      <div className="bg-custom-gradient min-h-screen flex flex-col">
+      <div className="bg-custom-gradient flex flex-col min-h-screen">
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />

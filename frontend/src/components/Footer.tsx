@@ -8,7 +8,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-transparent w-full flex flex-col items-center justify-center text-center py-6 fixed bottom-0">
+    <footer className="bg-transparent w-full flex flex-col items-center justify-center text-center py-6">
       {/* Social Media Icons */}
       <div className="flex space-x-4 mb-2">
         <a
@@ -61,7 +61,7 @@ const Footer = () => {
       {/* Links */}
       <div className="text-gray-200 text-sm">
         <a
-          href="mailto:contact@example.com"
+          href="mailto:contact@memolang.com"
           className="px-4 hover:text-gray-700"
         >
           Contact
@@ -71,7 +71,10 @@ const Footer = () => {
           About
         </a>
         <span>|</span>
-        <a href="/about" className="px-4 hover:text-gray-700">
+        <a
+          href="https://www.linkedin.com/in/clara-prioux-24393a181/"
+          className="px-4 hover:text-gray-700"
+        >
           © MemoLang
         </a>
       </div>

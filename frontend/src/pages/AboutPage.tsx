@@ -1,6 +1,6 @@
 const AboutPage = () => {
   return (
-    <div className="flex flex-col m-10 sm:m-32 font-jost space-y-8 mt-2 sm:mt-6">
+    <div className="flex flex-col m-10 sm:m-32 font-jost space-y-8 mt-2 sm:mt-6 flex-1">
       <div className="flex flex-col sm:flex-row space-y-10 sm:space-x-16">
         <div className="flex flex-col space-y-12 sm:mt-6">
           <h2 className="text-white text-2xl font-bold drop-shadow-lg mt-4">
