@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import HomePage from "./pages/HomePage";
 import AddPage from "./pages/AddPage";
 import ExercisePage from "./pages/ExercisePage";
 import AboutPage from "./pages/AboutPage";
-import AdminDashPage from "./pages/AdminDashPage";
-// import ProfilePage from './pages/ProfilePage';
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
-import ProtectedRouteAdmin from "./components/protectedRouteAdmin";
-import HomePage from "./pages/HomePage";
+import AdminDashPage from "./pages/AdminDashPage";
+import ProtectedRoute from "./components/protectedRoute"; // Import the generic ProtectedRoute
+import ProtectedRouteAdmin from "./components/protectedRouteAdmin"; // Admin Protected Route
 
 function App() {
   return (
@@ -18,10 +18,24 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/add" element={<AddPage />} />
-          <Route path="/review" element={<ExercisePage />} />
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute>
+                <AddPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/review"
+            element={
+              <ProtectedRoute>
+                <ExercisePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/about" element={<AboutPage />} />
-          {/* <Route path="/profile" element={<ProfilePage />} /> */}
+          {/* <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> */}
           <Route path="/admin" element={<ProtectedRouteAdmin />}>
             <Route index element={<AdminDashPage />} />
           </Route>

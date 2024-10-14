@@ -25,11 +25,18 @@ const HomePage: React.FC = () => {
               Read more about it
             </button>
           </Link>
-          <Link to="/register">
-            <button className="w-full bg-white bg-opacity-60 text-white text-lg font-bold py-2 px-2 mt-3 md:mt-0 rounded-md drop-shadow-md border border-blueBorder hover:bg-opacity-80">
-              Register
-            </button>
-          </Link>
+          <div className="flex gap-1">
+            <Link to="/register" className="w-full">
+              <button className="w-full bg-white bg-opacity-60 text-white text-lg font-bold py-2 px-2 mt-3 md:mt-0 rounded-md drop-shadow-md border border-blueBorder hover:bg-opacity-80">
+                Register
+              </button>
+            </Link>
+            <Link to="/login" className="w-full">
+              <button className="w-full bg-white bg-opacity-60 text-white text-lg font-bold py-2 px-2 mt-3 md:mt-0 rounded-md drop-shadow-md border border-blueBorder hover:bg-opacity-80">
+                Login
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
