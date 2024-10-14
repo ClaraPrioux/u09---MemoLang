@@ -93,7 +93,7 @@ const AddPage: React.FC = () => {
   };
 
   return (
-    <div className="w-2/3 md:w-3/6 mx-auto mt-32 md:mt-32 font-jost">
+    <div className="w-2/3 md:w-3/6 mx-auto mt-32 md:mt-32 font-jost flex-1">
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="word"></label>

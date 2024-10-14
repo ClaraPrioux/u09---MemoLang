@@ -52,7 +52,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="w-2/3 md:w-1/2 mx-auto my-auto font-jost">
+    <div className="w-2/3 md:w-1/2 mx-auto my-auto font-jost flex-1">
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <label

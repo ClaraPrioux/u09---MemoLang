@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="w-2/3 md:w-1/4 mx-auto mt-52 md:mt-32 font-jost">
+    <div className="w-2/3 md:w-1/4 mx-auto mt-52 md:mt-32 font-jost flex-1">
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <label

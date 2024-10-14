@@ -169,7 +169,7 @@ const ExercisePage: React.FC = () => {
   };
 
   return (
-    <div className="w-2/3 md:w-3/6 mx-auto mt-52 md:mt-32 font-jost">
+    <div className="w-2/3 md:w-3/6 mx-auto mt-52 md:mt-32 font-jost flex-1">
       <div className="block bg-white w-full p-4 border border-blueBorder rounded-md drop-shadow-md">
         <p>{exerciseMessage}</p>
       </div>

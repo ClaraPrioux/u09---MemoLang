@@ -4,7 +4,7 @@ import elephantImage from "../assets/elephant-hi.webp";
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex items-center justify-center m-16">
+    <div className="flex items-center justify-center m-16 flex-1">
       <div className="flex flex-col md:flex-row  max-w-6xl mx-auto p-4 items-center">
         {/* Image Section */}
         <div className="flex-shrink-0 md:w-1/2">
