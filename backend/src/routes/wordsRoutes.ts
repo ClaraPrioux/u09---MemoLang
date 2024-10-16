@@ -73,6 +73,27 @@ router.post("/add", authMiddleware, async (req, res) => {
   }
 });
 
+// GET CONTEXT ENDPOINT (will be used if wrong answer from user)
+router.post("/getContext", authMiddleware, async (req, res) => {
+  try {
+    const { word_id, user_id } = req.body;
+    const word = await mongoose.connection.collection("userswords").findOne({
+      $and: [
+        { user_id: new mongoose.Types.ObjectId(user_id) },
+        { word_id: new mongoose.Types.ObjectId(word_id) },
+      ],
+    });
+    if (!word) {
+      return res
+        .status(404)
+        .json({ message: "No word found with the given details" });
+    }
+    return res.status(200).json({ context: word.context });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching context", error });
+  }
+});
+
 // GET TODAY'S WORDS ENDPOINT
 router.get("/getTodaysWords", authMiddleware, async (req, res) => {
   try {
