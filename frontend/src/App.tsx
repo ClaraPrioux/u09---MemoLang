@@ -11,6 +11,7 @@ import AdminDashPage from "./pages/AdminDashPage";
 import ProtectedRoute from "./components/protectedRoute";
 import ProtectedRouteAdmin from "./components/protectedRouteAdmin";
 import { useState } from "react";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,7 +40,14 @@ function App() {
               }
             />
             <Route path="/about" element={<AboutPage />} />
-            {/* <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/admin" element={<ProtectedRouteAdmin />}>
               <Route index element={<AdminDashPage />} />
             </Route>
