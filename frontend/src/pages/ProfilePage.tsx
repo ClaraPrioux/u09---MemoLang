@@ -12,6 +12,7 @@ const ProfilePage = () => {
     username: string;
   } | null>(null);
   const [usersWords, setUsersWords] = useState<UsersWords[]>([]);
+  const [numberOfWords, setNumberOfWords] = useState<number>(0);
 
   // Fetch the users
   const fetchUser = useCallback(async () => {
@@ -53,10 +54,17 @@ const ProfilePage = () => {
 
       const data = await res.json();
       setUsersWords(data.words);
+      wordsCounter(usersWords);
     } catch (error) {
       console.error("Error fetching users", error);
     }
   }, []);
+
+  // Count the number of words in usersWords array
+  const wordsCounter = (usersWords: UsersWords[]) => {
+    const numberOfWords = usersWords.length;
+    setNumberOfWords(numberOfWords);
+  };
 
   return (
     <div className="m-4 md:m-14 font-jost flex-1">
@@ -86,7 +94,7 @@ const ProfilePage = () => {
         <div className="flex flex-col space-y-10 mb-10 items-center">
           <div className="flex justify-center items-center bg-white rounded-full shadow-xl md:text-2xl text-lg w-36 md:w-42 h-36 md:h-42 mt-0">
             <p className="text-center">
-              92 <br /> words
+              {numberOfWords} <br /> words
             </p>
           </div>
           <div className="py-32 px-56 bg-white shadow-lg"></div>
