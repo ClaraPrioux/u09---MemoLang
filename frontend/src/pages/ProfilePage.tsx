@@ -1,4 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+ChartJS.register(BarElement, CategoryScale, LinearScale);
+
 import Logout from "../components/LogoutBtn";
 
 type UsersWords = {
@@ -7,14 +16,18 @@ type UsersWords = {
   Translation: string;
 };
 
+type WordsPerWeek = {
+  _id: number;
+  wordCount: number;
+};
+
 const ProfilePage = () => {
-  const [user, setUser] = useState<{
-    username: string;
-  } | null>(null);
+  const [user, setUser] = useState<{ username: string } | null>(null);
   const [usersWords, setUsersWords] = useState<UsersWords[]>([]);
   const [numberOfWords, setNumberOfWords] = useState<number>(0);
+  const [wordsPerWeek, setWordsPerWeek] = useState<WordsPerWeek[]>([]);
 
-  // Fetch the users
+  // Fetch the user
   const fetchUser = useCallback(async () => {
     try {
       const res = await fetch("http://localhost:3000/profile/getUser", {
@@ -25,13 +38,14 @@ const ProfilePage = () => {
         },
       });
 
-      if (!res.ok) throw new Error("Error fetching users");
+      if (!res.ok) throw new Error("Error fetching user");
 
       const data = await res.json();
       setUser(data.userInfo);
       fetchUsersWords();
+      fetchWordsPerWeek();
     } catch (error) {
-      console.error("Error fetching users", error);
+      console.error("Error fetching user", error);
     }
   }, []);
 
@@ -50,13 +64,36 @@ const ProfilePage = () => {
         },
       });
 
-      if (!res.ok) throw new Error("Error fetching users");
+      if (!res.ok) throw new Error("Error fetching user words");
 
       const data = await res.json();
       setUsersWords(data.words);
-      wordsCounter(usersWords);
+      wordsCounter(data.words);
     } catch (error) {
-      console.error("Error fetching users", error);
+      console.error("Error fetching user words", error);
+    }
+  }, []);
+
+  // Fetch words created per week
+  const fetchWordsPerWeek = useCallback(async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:3000/profile/getWordsCreatedPerWeek",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Error fetching words per week");
+
+      const data = await res.json();
+      setWordsPerWeek(data.wordsPerWeek);
+    } catch (error) {
+      console.error("Error fetching words per week", error);
     }
   }, []);
 
@@ -64,6 +101,35 @@ const ProfilePage = () => {
   const wordsCounter = (usersWords: UsersWords[]) => {
     const numberOfWords = usersWords.length;
     setNumberOfWords(numberOfWords);
+  };
+
+  // Prepare data for the chart
+  const chartData = {
+    labels: wordsPerWeek.map((week) => `week ${week._id}`),
+    datasets: [
+      {
+        label: "words added",
+        data: wordsPerWeek.map((week) => week.wordCount),
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  // Options for the chart _ IMPROVE IF I HAVE TIME
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      x: {},
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+        },
+      },
+    },
   };
 
   return (
@@ -97,7 +163,10 @@ const ProfilePage = () => {
               {numberOfWords} <br /> words
             </p>
           </div>
-          <div className="py-32 px-56 bg-white shadow-lg"></div>
+
+          <div className="py-8 px-8 bg-white shadow-lg">
+            <Bar data={chartData} options={chartOptions} />
+          </div>
         </div>
       </div>
     </div>
