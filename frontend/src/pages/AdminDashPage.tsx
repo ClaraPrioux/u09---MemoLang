@@ -18,7 +18,7 @@ const AdminDashPage = () => {
   // Fetch the users
   const fetchUsers = useCallback(async () => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const apiUrl = process.env.REACT_APP_API_URL;
       const res = await fetch(`${apiUrl}/admin/getUsers`, {
         method: "GET",
         headers: {
@@ -61,7 +61,7 @@ const AdminDashPage = () => {
   const handleEditSubmit = async () => {
     if (editingUser) {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+        const apiUrl = process.env.REACT_APP_API_URL;
         const res = await fetch(`${apiUrl}/admin/updateUser`, {
           method: "PUT",
           headers: {
@@ -84,7 +84,7 @@ const AdminDashPage = () => {
   // Handle user deletion
   const handleDeleteUser = async (email: string) => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const apiUrl = process.env.REACT_APP_API_URL;
       const res = await fetch(`${apiUrl}/admin/deleteUser`, {
         method: "DELETE",
         headers: {

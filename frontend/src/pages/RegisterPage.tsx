@@ -30,7 +30,7 @@ const RegisterPage: React.FC = () => {
     const newUser = { username, email, password };
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const apiUrl = process.env.REACT_APP_API_URL;
       const response = await fetch(`${apiUrl}/auth/register`, {
         method: "POST",
         headers: {
