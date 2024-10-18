@@ -12,7 +12,8 @@ const AddPage: React.FC = () => {
   // Fetch suggestions from the backend as the user types
   useEffect(() => {
     if (word.length > 1) {
-      fetch("http://localhost:3000/word/getSuggestions", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      fetch(`${apiUrl}/word/getSuggestions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,9 @@ const AddPage: React.FC = () => {
 
     // Send the wordId and context to the backend
     try {
-      const res = await fetch("http://localhost:3000/word/add", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+
+      const res = await fetch(`${apiUrl}/word/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

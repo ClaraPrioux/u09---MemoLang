@@ -28,7 +28,8 @@ const LoginPage: React.FC = () => {
     const userCredentials = { email, password };
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

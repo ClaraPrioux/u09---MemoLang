@@ -18,7 +18,8 @@ const ExercisePage: React.FC = () => {
 
   // When the page loads, this useEffect fetches todays words from backend, and call methods
   useEffect(() => {
-    fetch("http://localhost:3000/word/getTodaysWords", {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    fetch(`${apiUrl}/word/getTodaysWords`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,8 +125,8 @@ const ExercisePage: React.FC = () => {
       console.error("No token found");
       return;
     }
-
-    fetch(`http://localhost:3000/word/getContext`, {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    fetch(`${apiUrl}/word/getContext`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,8 +154,8 @@ const ExercisePage: React.FC = () => {
       console.error("No token found");
       return;
     }
-
-    fetch(`http://localhost:3000/word/markAsCompletedForDay`, {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    fetch(`${apiUrl}/word/markAsCompletedForDay`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

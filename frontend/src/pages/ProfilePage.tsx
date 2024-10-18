@@ -30,7 +30,8 @@ const ProfilePage = () => {
   // Fetch the user
   const fetchUser = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:3000/profile/getUser", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/profile/getUser`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +57,8 @@ const ProfilePage = () => {
   // Fetch the user's words
   const fetchUsersWords = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:3000/profile/getWords", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/profile/getWords`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -77,16 +79,14 @@ const ProfilePage = () => {
   // Fetch words created per week
   const fetchWordsPerWeek = useCallback(async () => {
     try {
-      const res = await fetch(
-        "http://localhost:3000/profile/getWordsCreatedPerWeek",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/profile/getWordsCreatedPerWeek`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (!res.ok) throw new Error("Error fetching words per week");
 

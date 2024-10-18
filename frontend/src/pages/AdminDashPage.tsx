@@ -18,7 +18,8 @@ const AdminDashPage = () => {
   // Fetch the users
   const fetchUsers = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:3000/admin/getUsers", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/admin/getUsers`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +61,8 @@ const AdminDashPage = () => {
   const handleEditSubmit = async () => {
     if (editingUser) {
       try {
-        const res = await fetch("http://localhost:3000/admin/updateUser", {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+        const res = await fetch(`${apiUrl}/admin/updateUser`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -82,7 +84,8 @@ const AdminDashPage = () => {
   // Handle user deletion
   const handleDeleteUser = async (email: string) => {
     try {
-      const res = await fetch("http://localhost:3000/admin/deleteUser", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/admin/deleteUser`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
