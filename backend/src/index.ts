@@ -21,9 +21,23 @@ connectDB().then(() => {
 });
 
 // Allow requests from your frontend
+const allowedOrigins = [
+  "https://u09-memolang.netlify.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "https://u09-memolang.netlify.app", // "http://localhost:5173"
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
 
