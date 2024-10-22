@@ -13,6 +13,10 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
   };
 
   const [role, setRole] = useState<string | null>(null);
+  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
   const apiUrl = process.env.REACT_APP_API_URL;
 
   // Function to fetch the user role
@@ -32,11 +36,42 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
       console.error("Error fetching user role:", error);
     }
   };
+  // Fetch the user
+  const fetchUsername = async () => {
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const res = await fetch(`${apiUrl}/profile/getUser`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-  // Fetch the role when the component mounts
+      if (!res.ok) throw new Error("Error fetching user");
+
+      const data = await res.json();
+      setUser(data.userInfo);
+    } catch (error) {
+      console.error("Error fetching user", error);
+    }
+  };
+
+  // Listen for login/logout changes
   useEffect(() => {
-    fetchUserRole();
-  }, []);
+    setToken(localStorage.getItem("token"));
+  }, [localStorage.getItem("token")]);
+
+  // Fetch the user info and role when token or isOpen changes (otherwise didn't update the state)
+  useEffect(() => {
+    if (token) {
+      fetchUserRole();
+      fetchUsername();
+    } else {
+      setUser(null);
+      setRole(null);
+    }
+  }, [token, isOpen]);
 
   return (
     <nav className="bg-transparent">
@@ -111,7 +146,9 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                 alt="Profile"
                 className="h-24 w-24 m-2 rounded-full border-2 border-white hover:border-gray-600"
               />
-              <p className="text-white text-3xl mt-4">Username</p>
+              <p className="text-white text-3xl mt-4">
+                {user ? user.username : "Loading..."}
+              </p>
             </div>
             <div className="bg-white flex flex-col items-start text-2xl p-2">
               <div className="flex m-2  mt-4">
@@ -172,28 +209,28 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                   <a href="/review">Review your words</a>
                 </button>
               </div>
-              <div className="flex p-2 mt-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-8 text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                  />
-                </svg>
+              {role === "admin" && (
+                <div className="flex p-2 mt-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-8 text-gray-400"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                    />
+                  </svg>
 
-                {role === "admin" && (
                   <button className="pl-4">
                     <a href="/admin">Admin</a>
                   </button>
-                )}
-              </div>
+                </div>
+              )}
               <div className="flex p-2 mt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
