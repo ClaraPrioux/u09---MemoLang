@@ -94,6 +94,10 @@ After setting up the project, navigate to `http://localhost:5173` in your browse
 - [Create user (Admin)](#admin---create-user)
 - [Update user (Admin)](#admin---update-user)
 - [Delete user (Admin)](#admin---delete-user)
+- [Get user information](#profile---get-user-information)
+- [Get user's words](#profile---get-users-words)
+- [Get Words Created Per Week](#profile---get-words-created-per-week)
+- [Get Role](#profile---get-role)
 
 ## User - Registration
 
@@ -430,6 +434,109 @@ After setting up the project, navigate to `http://localhost:5173` in your browse
   ```json
   {
     "message": "Error deleting user",
+    "error": "string"
+  }
+  ```
+
+## Profile - Get user information
+
+- **Endpoint**: `/profile/getUser`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization`: `Bearer jwt_token`
+- **Response**:
+  - **Success**:
+  ```json
+  {
+    "userInfo": {
+      "username": "string"
+    }
+  }
+  ```
+  - **Error**:
+  ```json
+  {
+    "message": "User not found!" or "No token provided!" or "Error fetching user",
+    "error": "string"
+  }
+  ```
+
+## Profile - Get user's words
+
+- **Endpoint**: `/profile/getWords`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization`: `Bearer jwt_token`
+- **Response**:
+  - **Success**:
+  ```json
+  {
+    "words": [
+      {
+        "_id": "string",
+        "word": "string",
+        "translation": "string"
+      }
+    ]
+  }
+  ```
+  - **No words found**:
+  ```json
+  {
+    "message": "User hasn't added any words yet!" or "No words found for the user!"
+  }
+  ```
+  - **Error**:
+  ```json
+  {
+    "message": "Error fetching user words",
+    "error": "string"
+  }
+  ```
+
+## Profile - Get Words Created Per Week
+
+- **Endpoint**: `/profile/getWordsCreatedPerWeek`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization`: `Bearer jwt_token`
+- **Response**:
+  - **Success**:
+  ```json
+  {
+    "wordsPerWeek": [
+      {
+        "_id": "number", // week number
+        "wordCount": "number"
+      }
+    ]
+  }
+  ```
+  - **Error**:
+  ```json
+  {
+    "message": "Error fetching user's words",
+    "error": "string"
+  }
+  ```
+
+## Profile - Get Role
+
+- **Endpoint**: `/profile/role`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization`: `Bearer jwt_token`
+- **Response**:
+  - **Success**:
+  ```json
+  {
+    "user_role": "string"
+  }
+  ```
+  - **Error**:
+  ```json
+  {
+    "message": "Error fetching user role",
     "error": "string"
   }
   ```
