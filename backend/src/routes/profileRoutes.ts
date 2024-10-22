@@ -7,6 +7,7 @@ const router = express.Router();
 
 interface DecodedToken {
   id: string;
+  role: string;
 }
 
 router.get("/getUser", async (req, res) => {
@@ -119,6 +120,22 @@ router.get("/getWordsCreatedPerWeek", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error fetching user's words", error });
+  }
+});
+
+router.get("/role", async (req, res) => {
+  try {
+    // Extract the user_id from the token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided!" });
+    }
+    const decodedToken = jwt.verify(token, secretKey) as DecodedToken;
+    const user_role = decodedToken.role;
+
+    return res.status(200).json({ user_role });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching user", error });
   }
 });
 

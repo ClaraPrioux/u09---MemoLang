@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import logo from "../assets/logo.svg";
 import profile from "../assets/profile.webp";
 
@@ -10,6 +11,32 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const [role, setRole] = useState<string | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  // Function to fetch the user role
+  const fetchUserRole = async () => {
+    try {
+      const res = await fetch(`${apiUrl}/profile/role`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await res.json();
+      setRole(data.user_role);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
+  };
+
+  // Fetch the role when the component mounts
+  useEffect(() => {
+    fetchUserRole();
+  }, []);
 
   return (
     <nav className="bg-transparent">
@@ -32,6 +59,11 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
             <button className="hover:text-gray-600">
               <a href="/review">REVIEW</a>
             </button>
+            {role === "admin" && (
+              <button className="btn-admin">
+                <a href="/admin">ADMIN</a>
+              </button>
+            )}
             <button className="flex items-center">
               <a href="/profile">
                 <img
@@ -87,13 +119,13 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-8 text-gray-400"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
                   />
                 </svg>
@@ -107,13 +139,13 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-8 text-gray-400"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
@@ -126,13 +158,13 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-8 text-gray-400"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                   />
                 </svg>
@@ -145,13 +177,35 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, setIsOpen }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-8 text-gray-400"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                  />
+                </svg>
+
+                {role === "admin" && (
+                  <button className="pl-4">
+                    <a href="/admin">Admin</a>
+                  </button>
+                )}
+              </div>
+              <div className="flex p-2 mt-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-8 text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                   />
                 </svg>

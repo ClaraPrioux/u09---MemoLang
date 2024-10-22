@@ -108,7 +108,7 @@ const AdminDashPage = () => {
   };
 
   return (
-    <div className="m-4 md:m-14 font-jost">
+    <div className="m-4 md:m-14 font-jost flex-1">
       <div className="flex justify-between">
         <h1 className="text-white text-2xl font-bold drop-shadow-lg">
           Hi Admin, <br /> Welcome to the dashboard!
