@@ -109,8 +109,8 @@ router.delete(
     try {
       const { user_id } = req.body;
 
-      // Search for the user by email and delete it
-      const deletedUser = await User.findOneAndDelete({ user_id });
+      // If your database uses _id instead of user_id
+      const deletedUser = await User.findByIdAndDelete(user_id);
 
       if (!deletedUser) {
         return res.status(404).json({ message: "User not found" });

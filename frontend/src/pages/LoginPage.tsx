@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        navigate("/");
+        navigate("/add");
       } else {
         console.error(data.msg);
       }

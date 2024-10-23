@@ -82,22 +82,29 @@ const AdminDashPage = () => {
   };
 
   // Handle user deletion
-  const handleDeleteUser = async (email: string) => {
+  const handleDeleteUser = async (userId: string) => {
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
-      const res = await fetch(`${apiUrl}/admin/deleteUser`, {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`${apiUrl}/admin/deleteUser`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ user_id: userId }),
       });
 
-      if (!res.ok) throw new Error("Error deleting user");
-      fetchUsers();
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        fetchUsers();
+      } else {
+        alert("Error: " + data.message);
+      }
     } catch (error) {
-      console.error("Error deleting user", error);
+      console.error("Error deleting user:", error);
     }
   };
 
