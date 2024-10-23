@@ -5,6 +5,7 @@ import wordsRoutes from "./routes/wordsRoutes";
 import adminRoutes from "./routes/adminRoutes";
 import profileRoutes from "./routes/profileRoutes";
 import cors from "cors";
+import emailRoute from "./routes/emailRoute";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -51,3 +52,4 @@ app.use("/auth", authRoutes);
 app.use("/word", wordsRoutes);
 app.use("/admin", adminRoutes);
 app.use("/profile", profileRoutes);
+app.use("/email", emailRoute);
