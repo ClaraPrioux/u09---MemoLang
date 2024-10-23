@@ -13,13 +13,7 @@ const AdminDashPage = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  // States for email sending
-  const [recipientEmail, setRecipientEmail] = useState<string>("");
-  const [emailLoading, setEmailLoading] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [emailSubject, setEmailSubject] = useState("");
-  const [emailText, setEmailText] = useState("");
+  const [numberofUsers, setNumberofUsers] = useState<number>(0);
 
   // Fetch the users
   const fetchUsers = useCallback(async () => {
@@ -37,6 +31,7 @@ const AdminDashPage = () => {
 
       const data = await res.json();
       setUsers(data.usersInfo);
+      usersCounter(data.usersInfo);
     } catch (error) {
       console.error("Error fetching users", error);
     }
@@ -106,43 +101,10 @@ const AdminDashPage = () => {
     }
   };
 
-  // Send email function
-  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setEmailLoading(true);
-    setEmailError(null);
-
-    try {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      const res = await fetch(`${apiUrl}/email/send`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          to: recipientEmail,
-          subject: emailSubject,
-          text: emailText,
-        }),
-      });
-
-      if (!res.ok) {
-        const errorResponse = await res.json();
-        throw new Error(errorResponse.message || "Error sending email");
-      }
-
-      setRecipientEmail("");
-      setEmailSubject("");
-      setEmailText("");
-      console.log("Email sent successfully");
-    } catch (error) {
-      const err = error as Error;
-      setEmailError(err.message);
-      console.error("Error sending email", error);
-    } finally {
-      setEmailLoading(false);
-    }
+  // Count the number of users
+  const usersCounter = (usersInfo: User[]) => {
+    const numberOfUsers = usersInfo.length;
+    setNumberofUsers(numberOfUsers);
   };
 
   return (
@@ -248,53 +210,17 @@ const AdminDashPage = () => {
             ))}
           </tbody>
         </table>
-        <div className="flex md:flex-row flex-col items-center space-y-4 md:space-y-0 md:space-x-20">
-          <div className="flex flex-col md:w-1/2 w-3/4">
-            <h2 className="text-center mb-8 mt-8 md:mt-0 text-white text-2xl font-bold drop-shadow-lg">
-              Create a user
-            </h2>
-            <RegisterPage />
+        <h2 className="text-center sm:text-left mb-8 text-white text-2xl font-bold drop-shadow-lg">
+          Create a user
+        </h2>
+
+        <div className="flex md:flex-row flex-col justify-center items-center md:space-x-36">
+          <RegisterPage />
+          <div className="flex justify-center items-center bg-white rounded-full md:text-2xl text-lg w-36 md:w-56 h-36 md:h-56 md:mt-0 mt-10">
+            <p className="text-center">
+              Number of users <br /> 🎊 {numberofUsers} 🎊
+            </p>
           </div>
-          {/* Email Sending Form */}
-          <form
-            onSubmit={sendEmail}
-            className="flex flex-col space-y-4 md:w-1/3 w-3/4"
-          >
-            <h2 className="text-center mb-8 mt-8 md:mt-0 text-white text-2xl font-bold drop-shadow-lg">
-              Send an email
-            </h2>
-            <input
-              type="email"
-              placeholder="Recipient Email"
-              value={recipientEmail}
-              onChange={(e) => setRecipientEmail(e.target.value)}
-              required
-              className="block w-full p-3 border border-blue-500 rounded-md drop-shadow-md"
-            />
-            <input
-              type="text"
-              placeholder="Subject"
-              value={emailSubject}
-              onChange={(e) => setEmailSubject(e.target.value)}
-              required
-              className="block w-full p-3 border border-blue-500 rounded-md drop-shadow-md"
-            />
-            <textarea
-              placeholder="Email Body"
-              value={emailText}
-              onChange={(e) => setEmailText(e.target.value)}
-              required
-              className="block w-full p-3 border border-blue-500 rounded-md drop-shadow-md"
-            />
-            {emailError && <p className="text-red-500">{emailError}</p>}
-            <button
-              type="submit"
-              disabled={emailLoading}
-              className={`w-full bg-white bg-opacity-60 text-white font-bold py-2 px-4 rounded-md drop-shadow-md border border-blue-500 hover:bg-opacity-80 ${emailLoading ? "opacity-50" : ""}`}
-            >
-              {emailLoading ? "Sending..." : "Send Email"}
-            </button>
-          </form>
         </div>
       </div>
     </div>
