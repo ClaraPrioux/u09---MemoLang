@@ -25,6 +25,7 @@ const allowedOrigins = [
   "https://u09-memolang.netlify.app",
   "http://localhost:5173",
 ];
+app.options("*", cors());
 
 app.use(
   cors({
